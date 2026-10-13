@@ -2,6 +2,7 @@ package esepunittests
 
 type GradeCalculator struct {
 	grades []Grade
+	passFailMode bool
 }
 
 type GradeType int
@@ -28,10 +29,16 @@ type Grade struct {
 	Type  GradeType
 }
 
-func NewGradeCalculator() *GradeCalculator {
-	return &GradeCalculator{
-		grades: make([]Grade, 0),
-	}
+func NewGradeCalculator(passFail ...bool) *GradeCalculator {
+    gc := &GradeCalculator{
+        grades: make([]Grade, 0),
+    }
+
+    if len(passFail) > 0 {
+        gc.passFailMode = passFail[0]
+    }
+
+    return gc
 }
 
 func (gc *GradeCalculator) GetFinalGrade() string {
