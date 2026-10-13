@@ -92,10 +92,9 @@ func TestRealGetGradeF(t *testing.T) {
     gradeCalculator.AddGrade("essay", 50, Essay)
 
 	actual_value := gradeCalculator.GetFinalGrade()	
-
     if expected_value != actual_value {
 		t.Errorf("Expected GetGrade to return '%s'; got '%s' instead", expected_value, actual_value)
-    }
+    } 
 }
 
 func TestGradeTypeString(t *testing.T) {
@@ -107,10 +106,77 @@ func TestGradeTypeString(t *testing.T) {
         {Exam, "exam"},
         {Essay, "essay"},
     }
-
+	
     for _, test := range tests {
         if actual := test.gradeType.String(); actual != test.expected {
             t.Errorf("Expected %s; got %s", test.expected, actual)
         }
     }
+
+}
+
+//Part 7
+
+func TestPassFailGradePass(t *testing.T) {
+	expected := "Pass"
+
+	gradeCalculator := NewGradeCalculator(true)
+
+	gradeCalculator.AddGrade("assignment", 90, Assignment)
+	gradeCalculator.AddGrade("exam", 90, Exam)
+	gradeCalculator.AddGrade("essay", 90, Essay)
+
+	actual := gradeCalculator.GetFinalGrade()
+
+	if actual != expected {
+		t.Errorf("Expected '%s'; got '%s' instead", expected, actual)
+	}
+}
+
+func TestPassFailGradeAtThreshold(t *testing.T) {
+	expected := "Pass"
+
+	gradeCalculator := NewGradeCalculator(true)
+
+	gradeCalculator.AddGrade("assignment", 70, Assignment)
+	gradeCalculator.AddGrade("exam", 70, Exam)
+	gradeCalculator.AddGrade("essay", 70, Essay)
+
+	actual := gradeCalculator.GetFinalGrade()
+
+	if actual != expected {
+		t.Errorf("Expected '%s'; got '%s' instead", expected, actual)
+	}
+}
+
+func TestPassFailGradeBelowThreshold(t *testing.T) {
+	expected := "Fail"
+
+	gradeCalculator := NewGradeCalculator(true)
+
+	gradeCalculator.AddGrade("assignment", 69, Assignment)
+	gradeCalculator.AddGrade("exam", 69, Exam)
+	gradeCalculator.AddGrade("essay", 69, Essay)
+
+	actual := gradeCalculator.GetFinalGrade()
+
+	if actual != expected {
+		t.Errorf("Expected '%s'; got '%s' instead", expected, actual)
+	}
+}
+
+func TestPassFailGradeFail(t *testing.T) {
+	expected := "Fail"
+
+	gradeCalculator := NewGradeCalculator(true)
+
+	gradeCalculator.AddGrade("assignment", 50, Assignment)
+	gradeCalculator.AddGrade("exam", 50, Exam)
+	gradeCalculator.AddGrade("essay", 50, Essay)
+
+	actual := gradeCalculator.GetFinalGrade()
+
+	if actual != expected {
+		t.Errorf("Expected '%s'; got '%s' instead", expected, actual)
+	}
 }
